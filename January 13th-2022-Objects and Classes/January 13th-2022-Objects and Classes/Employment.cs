@@ -129,7 +129,7 @@ namespace January_13th_2022_Objects_and_Classes
             //constructor body 
             //a) empty 
             //b) you could assign literal values to your properties
-            Level = SupervisoryLevel.DepartmentHead;
+            Level = SupervisoryLevel.Supervisor;
             Title = "uknown";
         }
 

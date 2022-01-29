@@ -49,8 +49,11 @@ namespace January_13th_2022_Objects_and_Classes
             _Unit = Unit;
             _City = City;
         }
-        //note-no default constructor was created because i wish the program to assign the adress qith all the necessary data at creation time 
-        
+        //note-no default constructor was created because i wish the program to assign the adress with all the necessary data at creation time 
+        public override string ToString()
+        {
+            return $"{Number}, {Address1} ,{Address2} ,{Unit},{City},{ProvinceState}";
+        }
 
 
     }//eopublic struct
