@@ -12,7 +12,9 @@ namespace January_13th_2022_Objects_and_Classes
     //struct can have fields.properties,constructors and methods(behaviours)
 
     public struct ResidentAddress
+     
     {
+        //my fields
         public int Number;
         public string Address1;
         public string Address2;
@@ -20,6 +22,7 @@ namespace January_13th_2022_Objects_and_Classes
         private string _City;
         public string ProvinceState;
 
+        //my properties
         public string Unit
         {
             get { return _Unit; }   

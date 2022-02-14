@@ -10,13 +10,13 @@ namespace January_13th_2022_Objects_and_Classes
     {
         // example of a composite class
         //each instance of this class will represent an individual
-        // First name,Last name ,resident adress and employment positions   
+        // First name,Last name ,resident address and employment positions   
         // a composite class uses other classes in its definition 
         // a composite class is recongnized with the phrase "has a" class
         // this class of Person "has a "resident address
 
         //an inherited class extends another class in  its definition
-        //  an inheroted class is recognized with the phrase "is a" class
+        //  an inherited class is recognized with the phrase "is a" class
         // assume a general class called "Transportation "-then we can extend this class to more specific classes    
         // public class Vehicle :Transportation
         // public class Bike :Transportation
@@ -65,9 +65,9 @@ namespace January_13th_2022_Objects_and_Classes
             }
         }//eop
 
-        //composition actually uses the other class as a property /field within the definition of the class defined  
+        //composition actually uses the other class as a property /field within the definition of the class defined  \
 
-        public ResidentAddress Address;
+        public ResidentAddress Address;//in this example Address is a field (data member)- there is no get,set
         public List<Employment> EmploymentPositions { get; private set; }
 
        // public Person()//this is our default constructor
@@ -107,7 +107,10 @@ namespace January_13th_2022_Objects_and_Classes
             LastName = lastname.Trim();
         }
 
-        public void AddEmployment() { }
+        public void AddEmployment(Employment employment) 
+        { 
+            EmploymentPositions.Add(employment);
+        }
      
 
     }//eoclass
