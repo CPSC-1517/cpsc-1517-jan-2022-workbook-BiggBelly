@@ -5,3 +5,7 @@ worker,TeamMember,2.1
 leader,TeamLeader,7.8
 worker,Supervisor,6
 worker,DepartmentHead,2.1
+Entry,4.5
+,Owner,4.5
+Bad Years,DepartmentHead,BOB
+Bad Years,DepartmentHead,-4.6

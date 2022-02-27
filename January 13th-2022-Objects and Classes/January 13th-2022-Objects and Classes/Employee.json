@@ -1,0 +1,29 @@
+{
+  "FirstName": "Andy with employment",
+  "LastName": "Taschuk",
+  "EmploymentPositions": [
+    {
+      "Title": "worker",
+      "Level": 1,
+      "Years": 2.1
+    },
+    {
+      "Title": "leader",
+      "Level": 0,
+      "Years": 7.8
+    },
+    {
+      "Title": "Boss",
+      "Level": 5,
+      "Years": 20
+    }
+  ],
+  "Address": {
+    "Unit": null,
+    "City": "Edmonton",
+    "Number": 10767,
+    "Address1": "106 st NW",
+    "Address2": null,
+    "ProvinceState": "Alberta"
+  }
+}

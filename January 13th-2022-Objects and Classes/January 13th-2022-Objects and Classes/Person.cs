@@ -1,8 +1,14 @@
-﻿using System;
+﻿// these are all default namespaces
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using System.Threading.Tasks;
+
+#region Additional Namespaces
+using System.Text.Json.Serialization;
+#endregion
 
 namespace January_13th_2022_Objects_and_Classes
 {
@@ -67,6 +73,11 @@ namespace January_13th_2022_Objects_and_Classes
 
         //composition actually uses the other class as a property /field within the definition of the class defined  \
 
+        //json Serilaization has no problem in creating the named pair for this field due to the IncludeFields option
+        // However ,the deserilization does have problem
+        // solution: use an annotation to indicate that the field is included for use by Json
+        //to use this annoation - you will neeed to add a namespace (see above)
+        [JsonInclude]
         public ResidentAddress Address;//in this example Address is a field (data member)- there is no get,set
         public List<Employment> EmploymentPositions { get; private set; }
 

@@ -9,64 +9,78 @@ using January_13th_2022_Objects_and_Classes;//gives reference to the location of
 
 Employment Job = CreateJob ();//
 
-
 ResidentAddress Address = CreateAddress();
 
 //create a person
 Person Me = CreatePerson( Job, Address);
-//if (Me != null)
-//{
-// DisplayPerson(Me);
-//}
+
+if (Me != null)
+{
+ DisplayPerson(Me);
+}
 
 
 //ArrayReview(Me);
 
-string pathname = CreateCSVFile();
-ReadCSVFile(pathname);
+#region CSV Read and Write File 
+//string pathname = CreateCSVFile();
+//string pathname = "../../../Employment.dat";
 
+//Console.WriteLine("\n Results of parsing the incoming CSV Employment data file\n");
+//List<Employment>Jobs = ReadCSVFile(pathname);
+//Console.WriteLine("\n Results of good parsed the incoming CSV Employment data file\n");
+//foreach (Employment employment in Jobs)
+//{
+//DisplayString(employment.ToString());
+//}
+string Jsonpathname = "../../../Employee.json";
+SaveAsJson(Me,Jsonpathname);
+Person You = ReadAsJson(Jsonpathname);
+DisplayPerson(You);
+#endregion
 
 static void DisplayString(string text)
 {
     Console.WriteLine(text);
 }   
-static void DisplayPerson(Person person)
+static void DisplayPerson(Person Me)
 {
-    Console.WriteLine(person.FirstName,person.LastName,person.Address);
-   // DisplayString($"{person.FirstName}{person.LastName}");
-   // DisplayString($"{person.Address.ToString()}");
+  
+    //DisplayString($"{Me.FirstName}{person.LastName}");
+    //DisplayString($"{person.Address.ToString()}");
+    Console.WriteLine("{0},{1},{2}",Me.FirstName,Me.LastName,Me.Address);// here
 
     //in our example ,the Person constructor ensures that EmploymentPosition exists 
     // (List was declared);this makes the need for the null mute 
-    if (person.EmploymentPositions != null)
-    {
+    //if (person.EmploymentPositions != null)
+    //{
         //the following loop is a forward moving pre test loop\
         // what it checks is "is there another link element to look at"
         // if yes - then use the element- if no then exit the loop 
-        foreach(var position in person.EmploymentPositions)
-        {
+          foreach(var position in Me.EmploymentPositions)
+          {
             DisplayString(position.ToString());
-        }
+          }
         // a List<T> can actually be manipulated like an array 
         // is a pre - test loop But does not check for a missing list<T>
         //in our example ,the Person constructor ensures that EmploymentPosition
         // exists (list was declared ); this makes the need for the null note
-        for (int i = 0; i < person.EmploymentPositions.Count; i++)
-        {
-            DisplayString(person.EmploymentPositions[i].ToString());
-        }
+        //for (int i = 0; i < person.EmploymentPositions.Count; i++)
+       // {
+            //DisplayString(person.EmploymentPositions[i].ToString());
+        //}
 
-        if (person.EmploymentPositions.Count > 0)
-        {
-            int x = 0;
+       // if (person.EmploymentPositions.Count > 0)
+        //{
+            //int x = 0;
             // is a post test loop 
-            do
-            {
-                DisplayString(person.EmploymentPositions[x].ToString());
-                x++;
-            } while (x < person.EmploymentPositions.Count);
-        }
-    }
+            //do
+            //{
+                //DisplayString(person.EmploymentPositions[x].ToString());
+               // x++;
+            //} while (x < person.EmploymentPositions.Count);
+       // }
+   // }
    
 }
 
@@ -77,16 +91,16 @@ Employment  CreateJob()
     try
     {
         Job = new Employment();
-        DisplayString($"default good job,{ Job.ToString() }");//default constructor
+        //DisplayString($"default good job,{Job.ToString()}");//default constructor
   
         Job = new Employment("Boss", SupervisoryLevel.Owner, 20);//greedy constructor
-        DisplayString($"greedy good job,{ Job.ToString() }");
+       // DisplayString($"greedy good job,{ Job.ToString() }");
 
         //checking exceptions
         //bad data - check for null or whitespace on title
         //Job = new Employment("", SupervisoryLevel.Owner, 20);
         //bad data for year
-        Job = new Employment("boss", SupervisoryLevel.Owner, 6.5);
+       // Job = new Employment("boss", SupervisoryLevel.Owner, 6.5);
 
     }
     catch(ArgumentException ex) //specific exception message
@@ -103,50 +117,52 @@ Employment  CreateJob()
 ResidentAddress CreateAddress()
 {
    ResidentAddress Address = new ResidentAddress();
-    DisplayString($"default Address{Address.ToString()}");
+   // DisplayString($"default Address{Address.ToString()}");
     Address = new ResidentAddress(10767, "106 st NW", null, null,"Edmonton", "Alberta");
-    DisplayString($"greedy default Address{Address.ToString()}");
+   // DisplayString($"greedy default Address,{Address.ToString()}");
     return Address;
 }
 Person CreatePerson(Employment job,ResidentAddress address)
 {
-    List<Employment> employments = new List<Employment>();
+    List<Employment> Jobs = new List<Employment>();
     Person thePerson = null;
     try
     {
         // create a good person using a greedy constructor no employment list
-        thePerson = new Person("AndyNoJob", "Taschuk", null, address);
+        //thePerson = new Person("AndyNoJob", "Taschuk", null, address);
+      
 
         // create a good person using a greedy constructor with an empty employment list 
-        //thePerson = new Person("AndyEmpty", "Taschuk", employments, address);
+      
+       // thePerson = new Person("AndyEmpty", "Taschuk", Jobs, address);
 
         // create a good person using a greedy constructor with a job list
       
-        employments.Add(new Employment("worker", SupervisoryLevel.Entry, 2.1));
-        employments.Add(new Employment("leader", SupervisoryLevel.Entry, 7.8));
-        employments.Add(job);
-        thePerson = new Person("Andy with employment", "Taschuk", employments, address);
+        Jobs.Add(new Employment("worker", SupervisoryLevel.TeamMember, 2.1));
+        Jobs.Add(new Employment("leader", SupervisoryLevel.Entry, 7.8));
+        Jobs.Add(job);
+         thePerson = new Person("Andy with employment", "Taschuk",Jobs, address);
 
         //exception testing
         // no first name
-        thePerson = new Person(null, "taschuk", employments, address);
+        // thePerson = new Person(null, "taschuk", Jobs, address);
         //no second name
-        thePerson = new Person("andy", null, employments, address);
+        // thePerson = new Person("andy", null,Jobs, address);
 
         //can i change the first name using an assignment statement
         ////the first name is a private set / you are not allowed to use a private set 
         ///on the receiving side of an assignment
         // thePerson.FirstName = "New Name";
         // can i use a behaviour (method) to change the contents of a private set
-        thePerson.ChangeName("Lowand","Behold");
+        // thePerson.ChangeName("Lowand","Behold");
 
         // can i add another job after the person instance was created
-        thePerson.AddEmployment(new("DP IT", SupervisoryLevel.DepartmentHead, 0.8));
+        // thePerson.AddEmployment(new("DP IT", SupervisoryLevel.DepartmentHead, 0.8));
 
         // i can change the public field address directly 
-        ResidentAddress oldaddress = thePerson.Address;
-        oldaddress.City = "Vancouver";
-        thePerson.Address = oldaddress;
+        // ResidentAddress oldaddress = thePerson.Address;
+        //oldaddress.City = "Vancouver";
+        // thePerson.Address = oldaddress;
     }
     catch (ArgumentException ex) //specific exception message
     {
@@ -159,7 +175,7 @@ Person CreatePerson(Employment job,ResidentAddress address)
     }
     return thePerson;
 }
-  void ArrayReview(Person person)
+ void ArrayReview(Person person) 
   {
     //declare a single dimensional array size 5
     //in this declaration the value in each element is set to the 
@@ -208,7 +224,7 @@ Person CreatePerson(Employment job,ResidentAddress address)
     array1[arrayposition] = randomvalue;
     PrintArray(array1, lsarray1, "randomly replace an array value");
 
-    //remove an element froman array
+    //remove an element from an array
     // move all array elements into positions greater than the removed element position "up one"
     // assume we are removing element 3 (index 2)
     int logicalelementnumber = 3;
@@ -270,6 +286,14 @@ string CreateCSVFile()
             csvLines.Add(item.ToString());
         }
 
+        // TESTING FOR BAD CSV DATA
+
+        csvLines.Add($"{SupervisoryLevel.Entry},4.5");//missing value error
+        csvLines.Add($",{SupervisoryLevel.Owner},4.5");//missing text error on title
+        csvLines.Add($"Bad Years,{SupervisoryLevel.DepartmentHead},BOB");// non numeric value for years
+        csvLines.Add($"Bad Years,{SupervisoryLevel.DepartmentHead},-4.6");// negative value for years
+
+
         // write to a csv file requires the System.IO namespace
         // writing a file will default the output to the folder that contains the executing.exe file 
         // there are several ways to output this file such as using SteamWriter and using the file class
@@ -277,7 +301,7 @@ string CreateCSVFile()
         // there is no need for a Streamwriter instance
         // the pathname of the method at minimum must be the filename
         // the pathname can redirect the default location by using relative addressing with the filename
-   
+
         File.WriteAllLines( pathname,csvLines);
         Console.WriteLine($"\n Check out the CSV file at: {Path.GetFullPath(pathname)}");
     }
@@ -289,17 +313,49 @@ string CreateCSVFile()
 }
    
 
-void ReadCSVFile(string pathname)
+List<Employment> ReadCSVFile(string pathname)
 {
+    List<Employment> inputList = new List<Employment>();
     //reading a csv file is similar to writing. One can read all lines at one time >there is no need 
     // for a Steamreader.One concern would be the size of the expected input file 
     try
     {
         string[] csvFileInput = File.ReadAllLines(pathname);
-        Console.WriteLine("\n\nContents of CSV Employment file :\n");
-        foreach(var item in csvFileInput) 
+
+        //create a reusable instance of Employment 
+        Employment job = null;
+        //item represent a line(record) in the incoming data
+        //attempt to process EACH line whether any of the incoming lines have an error or not
+        // THUS you will need to manage any errors on the individual line as you process that line
+        // and be able to continue to the next line
+        foreach(var line in csvFileInput) 
         {
-            Console.WriteLine(item);
+            try
+            {
+                bool returnBool= Employment.TryParse(line, out job);
+                //returned value is already boolean value:it is already true or false
+                // there is no need to use a relative operator condition to test the field
+                // (returnedBool == true) is not necessary
+                // a relative operator condition Resolves to true or false 
+                if(returnBool)
+                {
+                    inputList.Add(job); 
+                }
+            }
+            catch (FormatException ex)
+            {
+
+                Console.WriteLine($"Format Error:{ex.Message}"); 
+
+            }
+            catch (ArgumentNullException ex)
+            {
+                Console.WriteLine($"Argument Invalid Error:{ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($" Processing Parse Error:{ex.Message}");
+            }
         }
     }
     catch (IOException ex)
@@ -312,6 +368,53 @@ void ReadCSVFile(string pathname)
         Console.WriteLine(ex.Message);
 
     }
+    return inputList;
 
 }
 
+void SaveAsJson(Person me,string pathname)
+{
+    // the term use to read and write Json files is Serialization
+    // the classes use are referred to as serializers
+    // with writing we can make these files produced more redable by using indentation
+    //Json is very good at using object and properties however,it needs help /prompting to work better with fields
+    JsonSerializerOptions options = new JsonSerializerOptions
+    {
+        WriteIndented = true,
+        IncludeFields = true,
+    };
+    try
+    {
+        //Serilization
+    //produce of serilization is a string 
+    string jsonstring = JsonSerializer.Serialize<Person>(me, options);
+    // output the json string to your file indicted in the path 
+    File.WriteAllText(pathname, jsonstring);
+
+
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+       
+    }
+    
+}
+Person ReadAsJson(string pathname)
+{
+    Person you = null;
+    try
+    {
+        //bring in the text from the file 
+        string jsonstring = File.ReadAllText(pathname);
+
+        // use the deserializer to unpack the json string into the expected structure(<Person>)
+
+        you = JsonSerializer.Deserialize<Person>(jsonstring);
+    }
+    catch ( Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    return you;
+}
